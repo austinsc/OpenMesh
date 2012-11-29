@@ -1,0 +1,9 @@
+Thumbs.db
+bin/
+lib/
+stage/
+*.user
+*.log
+*.tlog
+Debug/
+Release/

@@ -1,4 +1,0 @@
-OpenMesh
-========
-
-C++ Mesh Library
