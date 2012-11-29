@@ -45,7 +45,7 @@ endif()
 # Add bundle targets here
 # ========================================================================
 if ( NOT DEFINED BUILD_APPS )
-  set( BUILD_APPS true CACHE BOOL "Enable or disable building of apps" )
+  set( BUILD_APPS false CACHE BOOL "Enable or disable building of apps" )
 endif()
 
 # Only call fixbundle, when we are building OpenMesh standalone
