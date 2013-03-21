@@ -89,13 +89,19 @@ struct vector_traits
   typedef typename T::vector_type vector_type;
 
   /// Type of the scalar value
-  typedef typename T::value_type  value_type;
+  typedef typename T::value_type value_type;
 
   /// size/dimension of the vector
   static const size_t size_ = T::size_;
 
   /// size/dimension of the vector
   static size_t size() { return size_; }
+
+  static inline value_type length(const vector_type& vec) { return vec.length(); }
+  static inline value_type dot(const vector_type& vec1, const vector_type& vec2) { return dot(vec1, vec2); }
+  static inline vector_type cross(const vector_type& vec1, const vector_type& vec2) { return cross(vec1, vec2); }
+  static inline vector_type& normalize(vector_type& vec) { vec.normalize(); return vec; }
+  static inline vector_type normalized(const vector_type& vec) { return vec.normalized(); }
 };
 
 //@}

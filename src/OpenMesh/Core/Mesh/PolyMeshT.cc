@@ -118,8 +118,11 @@ calc_face_normal(FaceHandle _fh) const
   n += vector_cast<Normal>(calc_face_normal(p0i, p0, p1)); 
   n += vector_cast<Normal>(calc_face_normal(p1i, p0i, p1));
 
-  typename vector_traits<Normal>::value_type norm = n.length();
-  
+  /** BEGIN SCA **/
+  //typename vector_traits<Normal>::value_type norm = n.length();  
+  typename vector_traits<Normal>::value_type norm = vector_traits<Normal>::length(n);
+  /** END SCA **/
+
   // The expression ((n *= (1.0/norm)),n) is used because the OpenSG
   // vector class does not return self after component-wise
   // self-multiplication with a scalar!!!
@@ -136,15 +139,15 @@ calc_face_normal(const Point& _p0,
      const Point& _p1,
      const Point& _p2) const
 {
-#if 1
+#if 0
   // The OpenSG <Vector>::operator -= () does not support the type Point
   // as rhs. Therefore use vector_cast at this point!!!
   // Note! OpenSG distinguishes between Normal and Point!!!
   Normal p1p0(vector_cast<Normal>(_p0));  p1p0 -= vector_cast<Normal>(_p1);
   Normal p1p2(vector_cast<Normal>(_p2));  p1p2 -= vector_cast<Normal>(_p1);
 
-  Normal n    = cross(p1p2, p1p0);
-  typename vector_traits<Normal>::value_type norm = n.length();
+  Normal n = vector_traits<Normal>::cross(p1p2, p1p0);
+  typename vector_traits<Normal>::value_type norm = vector_traits<Normal>::length(n);
 
   // The expression ((n *= (1.0/norm)),n) is used because the OpenSG
   // vector class does not return self after component-wise
@@ -154,8 +157,8 @@ calc_face_normal(const Point& _p0,
   Point p1p0 = _p0;  p1p0 -= _p1;
   Point p1p2 = _p2;  p1p2 -= _p1;
 
-  Normal n = vector_cast<Normal>(cross(p1p2, p1p0));
-  typename vector_traits<Normal>::value_type norm = n.length();
+  Normal n = vector_traits<Normal>::cross(p1p2, p1p0);
+  typename vector_traits<Normal>::value_type norm = vector_traits<Normal>::length(n);
 
   return (norm != 0.0) ? n *= (1.0/norm) : Normal(0,0,0);
 #endif
@@ -272,7 +275,7 @@ calc_halfedge_normal(HalfedgeHandle _heh, const double _feature_angle) const
     for(unsigned int i=0; i<fhs.size(); ++i)
       n += Kernel::normal(fhs[i]);
 
-    return n.normalize();
+    return vector_traits<Normal>::normalize(n);
   }
 }
 
@@ -304,7 +307,7 @@ is_estimated_feature_edge(HalfedgeHandle _heh, const double _feature_angle) cons
   Normal fn1 = Kernel::normal(fh1);
 
   // dihedral angle above angle threshold
-  return ( dot(fn0,fn1) < cos(_feature_angle) );
+  return ( vector_traits<Normal>::dot(fn0,fn1) < cos(_feature_angle) );
 }
 
 
