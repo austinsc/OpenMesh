@@ -102,6 +102,7 @@ struct vector_traits
   static inline vector_type cross(const vector_type& vec1, const vector_type& vec2) { return cross(vec1, vec2); }
   static inline vector_type& normalize(vector_type& vec) { vec.normalize(); return vec; }
   static inline vector_type normalized(const vector_type& vec) { return vec.normalized(); }
+  static inline vector_type& vectorize(vector_type& vec, const value_type& val) { return vec.vectorize(val); }
 };
 
 //@}

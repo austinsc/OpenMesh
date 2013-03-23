@@ -322,7 +322,7 @@ calc_vertex_normal(VertexHandle _vh) const
   Normal n;
   calc_vertex_normal_fast(_vh,n);
 
-  Scalar norm = n.length();
+  Scalar norm = vector_traits<Normal>::length(n);
   if (norm != 0.0) n *= (1.0/norm);
 
   return n;
@@ -333,7 +333,7 @@ template <class Kernel>
 void PolyMeshT<Kernel>::
 calc_vertex_normal_fast(VertexHandle _vh, Normal& _n) const
 {
-  _n.vectorize(0.0);
+  vector_traits<Normal>::vectorize(_n, 0.0);
   for (ConstVertexFaceIter vf_it=this->cvf_iter(_vh); vf_it; ++vf_it)
     _n += this->normal(vf_it.handle());
 }
@@ -343,7 +343,7 @@ template <class Kernel>
 void PolyMeshT<Kernel>::
 calc_vertex_normal_correct(VertexHandle _vh, Normal& _n) const
 {
-  _n.vectorize(0.0);
+  vector_traits<Normal>::vectorize(_n, 0.0);
   ConstVertexIHalfedgeIter cvih_it = cvih_iter(_vh);
   if (!cvih_it)
   {//don't crash on isolated vertices

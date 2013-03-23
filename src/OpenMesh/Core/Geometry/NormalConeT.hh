@@ -86,6 +86,15 @@ public:
   //! default constructor (not initialized)
   NormalConeT() {}
 
+  template<class TPoint>
+  NormalConeT(const TPoint& _center_normal, Scalar _angle=0.0)
+	  : angle_(_angle)
+  {
+	  center_normal_[0] = _center_normal[0];
+	  center_normal_[1] = _center_normal[1];
+	  center_normal_[2] = _center_normal[2];
+  }
+
   //! Initialize cone with center (unit vector) and angle (radius in radians)
   NormalConeT(const Vec3& _center_normal, Scalar _angle=0.0);
 
