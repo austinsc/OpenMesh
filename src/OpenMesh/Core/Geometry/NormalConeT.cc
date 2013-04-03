@@ -143,7 +143,7 @@ merge(const NormalConeT& _cone)
 
     // axes point in opposite directions
     else
-      angle_ = 2.0 * M_PI;
+      angle_ = Scalar(2.0 * M_PI);
   }
 }
 

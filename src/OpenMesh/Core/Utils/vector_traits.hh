@@ -98,8 +98,8 @@ struct vector_traits
   static size_t size() { return size_; }
 
   static inline value_type length(const vector_type& vec) { return vec.length(); }
-  static inline value_type dot(const vector_type& vec1, const vector_type& vec2) { return dot(vec1, vec2); }
-  static inline vector_type cross(const vector_type& vec1, const vector_type& vec2) { return cross(vec1, vec2); }
+  static inline value_type dot(const vector_type& vec1, const vector_type& vec2) { return OpenMesh::dot(vec1, vec2); }
+  static inline vector_type cross(const vector_type& vec1, const vector_type& vec2) { return OpenMesh::cross(vec1, vec2); }
   static inline vector_type& normalize(vector_type& vec) { vec.normalize(); return vec; }
   static inline vector_type normalized(const vector_type& vec) { return vec.normalized(); }
   static inline vector_type& vectorize(vector_type& vec, const value_type& val) { return vec.vectorize(val); }
