@@ -171,7 +171,7 @@ void
 PolyMeshT<Kernel>::
 calc_face_centroid(FaceHandle _fh, Point& _pt) const
 {
-  _pt.vectorize(0);
+  point_traits<Normal>::vectorize(_pt, point_traits<Normal>::scalar_type(0.0));
   Scalar valence = 0.0;
   for (ConstFaceVertexIter cfv_it = this->cfv_iter(_fh); cfv_it; ++cfv_it, valence += 1.0)
   {
@@ -360,7 +360,7 @@ calc_vertex_normal_correct(VertexHandle _vh, Normal& _n) const
     HalfedgeHandle out_heh(next_halfedge_handle(cvih_it));
     Normal out_he_vec;
     calc_edge_vector(out_heh, out_he_vec);
-    _n += cross(in_he_vec, out_he_vec);//sector area is taken into account
+    _n += point_traits<Normal>::cross(in_he_vec, out_he_vec);//sector area is taken into account
     in_he_vec = out_he_vec;
     in_he_vec *= -1;//change the orientation
   }
@@ -383,7 +383,7 @@ calc_vertex_normal_loop(VertexHandle _vh, Normal& _n) const
     t_v += (typename vector_traits<Point>::value_type)(loop_scheme_mask__.tang0_weight(vh_val, i))*this->point(r1_v);
     t_w += (typename vector_traits<Point>::value_type)(loop_scheme_mask__.tang1_weight(vh_val, i))*this->point(r1_v);
   }
-  _n = cross(t_w, t_v);//hack: should be cross(t_v, t_w), but then the normals are reversed?
+  _n = point_traits<Normal>::cross(t_w, t_v);//hack: should be cross(t_v, t_w), but then the normals are reversed?
 }
 
 //-----------------------------------------------------------------------------

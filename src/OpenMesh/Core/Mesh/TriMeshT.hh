@@ -320,7 +320,7 @@ public:
    * @param _p  New point position that will be inserted in the face
    */
   inline void split_copy(FaceHandle _fh, const Point& _p)
-  { PolyMesh::split_copy(_fh, _p); }
+  { PolyMesh::split_copy(_fh, add_vertex(_p)); }
 
   /** \brief Face split (= 1-to-3 split, calls corresponding PolyMeshT function).
    *

@@ -342,7 +342,7 @@ public:
   {
     Normal edge_vec;
     calc_edge_vector(_heh, edge_vec);
-    return edge_vec.sqrnorm();
+    return point_traits<Normal>::length_squared(edge_vec);// edge_vec.sqrnorm();
   }
 
   /** defines a consistent representation of a sector geometry:
@@ -369,12 +369,12 @@ public:
     {
       return 0;
     }
-    Scalar cos_a = dot(v0 , v1) / denom;
+    Scalar cos_a = point_traits<Normal>::dot(v0 , v1) / denom;
     if (this->is_boundary(_in_heh))
     {//determine if the boundary sector is concave or convex
       FaceHandle fh(this->face_handle(this->opposite_halfedge_handle(_in_heh)));
       Normal f_n(calc_face_normal(fh));//this normal is (for convex fh) OK
-      Scalar sign_a = dot(cross(v0, v1), f_n);
+      Scalar sign_a = point_traits<Normal>::dot(point_traits<Normal>::cross(v0, v1), f_n);
       return angle(cos_a, sign_a);
     }
     else
@@ -409,7 +409,7 @@ public:
   {
     Normal vec0, vec1;
     calc_sector_vectors(_in_heh, vec0, vec1);
-    _sector_normal = cross(vec0, vec1);//(p2-p1)^(p0-p1)
+    _sector_normal = point_traits<Normal>::cross(vec0, vec1);//(p2-p1)^(p0-p1)
   }
 
   /** calculates the area of the face sector defined by
@@ -419,7 +419,7 @@ public:
   {
     Normal sector_normal;
     calc_sector_normal(_in_heh, sector_normal);
-    return sector_normal.norm()/2;
+    return point_traits<Normal>::length(sector_normal)/2;
   }
 
   /** calculates the dihedral angle on the halfedge _heh
@@ -437,9 +437,9 @@ public:
     const Normal& n1 = this->normal(this->face_handle(this->opposite_halfedge_handle(_heh)));
     Normal he;
     calc_edge_vector(_heh, he);
-    Scalar da_cos = dot(n0, n1);
+    Scalar da_cos = point_traits<Normal>::dot(n0, n1);
     //should be normalized, but we need only the sign
-    Scalar da_sin_sign = dot(cross(n0, n1), he);
+    Scalar da_sin_sign = point_traits<Normal>::dot(point_traits<Normal>::cross(n0, n1), he);
     return angle(da_cos, da_sin_sign);
   }
 
@@ -459,14 +459,14 @@ public:
     calc_sector_normal(_heh, n0);
     calc_sector_normal(this->opposite_halfedge_handle(_heh), n1);
     calc_edge_vector(_heh, he);
-    Scalar denom = n0.norm()*n1.norm();
+    Scalar denom = point_traits<Normal>::length(n0) * point_traits<Normal>::length(n1);
     if (denom == Scalar(0))
     {
       return 0;
     }
-    Scalar da_cos = dot(n0, n1)/denom;
+    Scalar da_cos = point_traits<Normal>::dot(n0, n1)/denom;
     //should be normalized, but we need only the sign
-    Scalar da_sin_sign = dot(cross(n0, n1), he);
+    Scalar da_sin_sign = point_traits<Normal>::dot(point_traits<Normal>::cross(n0, n1), he);
     return angle(da_cos, da_sin_sign);
   }
 
